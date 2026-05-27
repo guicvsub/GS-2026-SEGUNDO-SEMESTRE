@@ -1,0 +1,246 @@
+{
+  "info": {
+    "_postman_id": "e4a7427b-c6ca-4af0-96f5-5df20b3ae918",
+    "name": "AGROSAT AUTH - Cenarios Manuais",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Collection com cenarios de autenticacao baseados nos testes TC-AUTH-01 a TC-AUTH-08."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "tokenValido",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "TC-AUTH-01 - Cadastro valido (201)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cpf\": \"529.982.247-25\",\n  \"nome\": \"Joao\",\n  \"senha\": \"Farm@2026\",\n  \"latitude\": -15.7,\n  \"longitude\": -47.9,\n  \"areaCultivo\": 12.5\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "register"
+          ]
+        },
+        "description": "Esperado: HTTP 201 com token, expiresInHours=8 e smsSent=true."
+      }
+    },
+    {
+      "name": "TC-AUTH-02 - Cadastro com CPF duplicado (409)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cpf\": \"153.509.460-56\",\n  \"nome\": \"Joao\",\n  \"senha\": \"Farm@2026\",\n  \"latitude\": -15.7,\n  \"longitude\": -47.9,\n  \"areaCultivo\": 12.5\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "register"
+          ]
+        },
+        "description": "Execute 2x seguidas. Esperado na 2a chamada: HTTP 409 e mensagem CPF ja cadastrado."
+      }
+    },
+    {
+      "name": "TC-AUTH-03 - Cadastro com CPF invalido (422)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cpf\": \"000.000.000-00\",\n  \"nome\": \"Joao\",\n  \"senha\": \"Farm@2026\",\n  \"latitude\": -15.7,\n  \"longitude\": -47.9,\n  \"areaCultivo\": 12.5\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "register"
+          ]
+        },
+        "description": "Esperado: HTTP 422."
+      }
+    },
+    {
+      "name": "TC-AUTH-04 - Login valido (200)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cpf\": \"111.444.777-35\",\n  \"senha\": \"Farm@2026\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        },
+        "description": "Antes, cadastre o CPF 111.444.777-35 com senha Farm@2026. Esperado: HTTP 200 e token."
+      }
+    },
+    {
+      "name": "TC-AUTH-05 - Login senha incorreta (401)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cpf\": \"390.533.447-05\",\n  \"senha\": \"errada123\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        },
+        "description": "Antes, cadastre o CPF 390.533.447-05 com senha correta Farm@2026. Esperado: HTTP 401."
+      }
+    },
+    {
+      "name": "TC-AUTH-06 - Bloqueio apos tentativas (429)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cpf\": \"529.982.247-25\",\n  \"senha\": \"errada123\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        },
+        "description": "Cadastre primeiro o CPF 529.982.247-25. Envie esta request 6x: nas 5 primeiras -> 401, na 6a -> 429."
+      }
+    },
+    {
+      "name": "TC-AUTH-07 - Rota protegida sem token (401)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/lavoura",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "lavoura"
+          ]
+        },
+        "description": "Esperado: HTTP 401 e mensagem Token nao fornecido."
+      }
+    },
+    {
+      "name": "TC-AUTH-08 - Rota protegida com token expirado/invalido (401)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer expired.jwt.token"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/lavoura",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "lavoura"
+          ]
+        },
+        "description": "Esperado: HTTP 401 e mensagem Token expirado."
+      }
+    },
+    {
+      "name": "Extra - Rota protegida com token valido (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenValido}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/lavoura",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "lavoura"
+          ]
+        },
+        "description": "Use o token retornado no login valido (TC-AUTH-04). Esperado: HTTP 200."
+      }
+    }
+  ]
+}
