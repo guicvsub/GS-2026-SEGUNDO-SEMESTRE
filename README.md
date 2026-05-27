@@ -1,0 +1,2 @@
+# GS-2026-SEGUNDO-SEMESTRE
+O desafio FIAP Global Solution 2026
