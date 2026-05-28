@@ -1,0 +1,354 @@
+{
+  "info": {
+    "_postman_id": "4f02f8b8-19f8-4cb5-afbf-ed739ff63c5d",
+    "name": "AGROSAT USUARIO CRUD - Cenarios Manuais",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Collection para testar ciclo completo de CRUD de usuario com autenticacao JWT."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "tokenValido",
+      "value": ""
+    },
+    {
+      "key": "usuarioId",
+      "value": ""
+    },
+    {
+      "key": "cpf",
+      "value": "529.982.247-25"
+    },
+    {
+      "key": "nome",
+      "value": "Joao CRUD"
+    },
+    {
+      "key": "senha",
+      "value": "Farm@2026"
+    }
+  ],
+  "item": [
+    {
+      "name": "00 - Registrar usuario base (201)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cpf\": \"{{cpf}}\",\n  \"nome\": \"{{nome}}\",\n  \"senha\": \"{{senha}}\",\n  \"latitude\": -15.7000000,\n  \"longitude\": -47.9000000,\n  \"areaCultivo\": 12.50\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/register",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "register"
+          ]
+        },
+        "description": "Cria um usuario para ser usado nos testes de CRUD. Se ja existir, o backend pode retornar 409."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 201 ou 409', function () {",
+              "    pm.expect([201, 409]).to.include(pm.response.code);",
+              "});",
+              "",
+              "if (pm.response.code === 201) {",
+              "    var body = pm.response.json();",
+              "    if (body.token) pm.collectionVariables.set('tokenValido', body.token);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "01 - Login e salvar token (200)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cpf\": \"{{cpf}}\",\n  \"senha\": \"{{senha}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/auth/login",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "auth",
+            "login"
+          ]
+        },
+        "description": "Autentica e guarda token em {{tokenValido}} para os endpoints protegidos."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "var body = pm.response.json();",
+              "pm.test('Retorna token', function () {",
+              "    pm.expect(body.token).to.be.a('string').and.not.empty;",
+              "});",
+              "pm.collectionVariables.set('tokenValido', body.token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 - Criar usuario via CRUD (201)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenValido}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cpf\": \"390.533.447-05\",\n  \"nome\": \"Maria CRUD\",\n  \"senha\": \"Farm@2026\",\n  \"latitude\": -16.7000000,\n  \"longitude\": -48.9000000,\n  \"areaCultivo\": 9.10\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/usuarios",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "usuarios"
+          ]
+        },
+        "description": "Cria novo usuario no endpoint de CRUD e salva o id em {{usuarioId}}."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 201', function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "var body = pm.response.json();",
+              "var id = body.id || (body.data && body.data.id);",
+              "pm.test('Retorna id do usuario criado', function () {",
+              "    pm.expect(id).to.exist;",
+              "});",
+              "pm.collectionVariables.set('usuarioId', id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 - Listar usuarios (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenValido}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/usuarios",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "usuarios"
+          ]
+        },
+        "description": "Valida listagem geral de usuarios."
+      }
+    },
+    {
+      "name": "04 - Buscar usuario por id (200)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenValido}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/usuarios/{{usuarioId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "usuarios",
+            "{{usuarioId}}"
+          ]
+        },
+        "description": "Busca usuario criado no passo 02."
+      }
+    },
+    {
+      "name": "05 - Atualizar usuario por id (200)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenValido}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cpf\": \"390.533.447-05\",\n  \"nome\": \"Maria CRUD Atualizada\",\n  \"senha\": \"Farm@2026\",\n  \"latitude\": -16.7100000,\n  \"longitude\": -48.9100000,\n  \"areaCultivo\": 10.25\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/usuarios/{{usuarioId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "usuarios",
+            "{{usuarioId}}"
+          ]
+        },
+        "description": "Atualiza os dados do usuario previamente criado."
+      }
+    },
+    {
+      "name": "06 - Deletar usuario por id (204)",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenValido}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/usuarios/{{usuarioId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "usuarios",
+            "{{usuarioId}}"
+          ]
+        },
+        "description": "Remove o usuario criado para completar o ciclo CRUD."
+      }
+    },
+    {
+      "name": "07 - Buscar usuario deletado (404)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenValido}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/usuarios/{{usuarioId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "usuarios",
+            "{{usuarioId}}"
+          ]
+        },
+        "description": "Valida que o recurso nao existe mais apos delete."
+      }
+    },
+    {
+      "name": "08 - Criar usuario com CPF duplicado (409)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{tokenValido}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cpf\": \"{{cpf}}\",\n  \"nome\": \"Duplicado\",\n  \"senha\": \"Farm@2026\",\n  \"latitude\": -15.7000000,\n  \"longitude\": -47.9000000,\n  \"areaCultivo\": 12.50\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/usuarios",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "usuarios"
+          ]
+        },
+        "description": "Espera conflito de CPF para validar regra de unicidade."
+      }
+    },
+    {
+      "name": "09 - Endpoint protegido sem token (401)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/usuarios",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "usuarios"
+          ]
+        },
+        "description": "Valida comportamento sem Authorization."
+      }
+    }
+  ]
+}

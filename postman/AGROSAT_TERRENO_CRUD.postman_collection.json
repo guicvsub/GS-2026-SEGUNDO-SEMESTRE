@@ -1,0 +1,99 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-terreno-crud-agrosat",
+    "name": "AGROSAT TERRENO CRUD",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "CRUD de terrenos com JWT. Requer login apos registro."
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "tokenValido", "value": "" },
+    { "key": "terrenoId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "01 - Login",
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "var body = pm.response.json();",
+            "if (body.token) pm.collectionVariables.set('tokenValido', body.token);"
+          ]
+        }
+      }],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cpf\": \"111.444.777-35\",\n  \"senha\": \"Farm@2026\"\n}"
+        },
+        "url": "{{baseUrl}}/auth/login"
+      }
+    },
+    {
+      "name": "02 - Criar terreno (201)",
+      "event": [{
+        "listen": "test",
+        "script": {
+          "exec": [
+            "var body = pm.response.json();",
+            "if (body.id) pm.collectionVariables.set('terrenoId', body.id);"
+          ]
+        }
+      }],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{tokenValido}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Lavoura Norte\",\n  \"descricao\": \"Talhao principal\",\n  \"latitude\": -15.7000000,\n  \"longitude\": -47.9000000,\n  \"areaTotalHectares\": 50.00,\n  \"areaReservaHectares\": 10.00,\n  \"areaCultivoHectares\": 35.00,\n  \"emCultivo\": true,\n  \"culturaAtual\": \"Soja\",\n  \"tipoSolo\": \"Argiloso\",\n  \"irrigacaoAtiva\": true,\n  \"dataReferencia\": \"2026-05-28\",\n  \"observacoes\": \"Monitoramento satelital ativo\"\n}"
+        },
+        "url": "{{baseUrl}}/api/terrenos"
+      }
+    },
+    {
+      "name": "03 - Listar terrenos",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{tokenValido}}" }],
+        "url": "{{baseUrl}}/api/terrenos"
+      }
+    },
+    {
+      "name": "04 - Buscar por id",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{tokenValido}}" }],
+        "url": "{{baseUrl}}/api/terrenos/{{terrenoId}}"
+      }
+    },
+    {
+      "name": "05 - Atualizar terreno",
+      "request": {
+        "method": "PUT",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{tokenValido}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Lavoura Norte Atualizada\",\n  \"descricao\": \"Area em safra\",\n  \"latitude\": -15.7100000,\n  \"longitude\": -47.9100000,\n  \"areaTotalHectares\": 50.00,\n  \"areaReservaHectares\": 10.00,\n  \"areaCultivoHectares\": 38.00,\n  \"emCultivo\": true,\n  \"culturaAtual\": \"Milho\",\n  \"tipoSolo\": \"Argiloso\",\n  \"irrigacaoAtiva\": false,\n  \"dataReferencia\": \"2026-05-28\",\n  \"observacoes\": \"Rotacao de cultura\"\n}"
+        },
+        "url": "{{baseUrl}}/api/terrenos/{{terrenoId}}"
+      }
+    },
+    {
+      "name": "06 - Deletar terreno",
+      "request": {
+        "method": "DELETE",
+        "header": [{ "key": "Authorization", "value": "Bearer {{tokenValido}}" }],
+        "url": "{{baseUrl}}/api/terrenos/{{terrenoId}}"
+      }
+    }
+  ]
+}
