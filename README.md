@@ -19,6 +19,7 @@ Projeto da **Global Solution (FIAP 2026)** — plataforma de agricultura de prec
 | **Autenticacao (RF-AUTH)** | Cadastro, login JWT (8h), recuperacao de senha via OTP/SMS, bloqueio apos tentativas, log de acesso (90 dias) |
 | **Usuarios** | CRUD com papeis `ROLE_USER` e `ROLE_ADMIN`, estatisticas agregadas de area de cultivo |
 | **Terrenos** | CRUD de propriedades rurais com areas em hectares, reserva, cultivo ativo e registro diario |
+| **AlertEngine (C#)** | Composicao de alertas agricolas (`mensagemParaFala`) — consumido pelo Java |
 | **Documentacao** | SpringDoc / Swagger UI com cenarios de teste (TC-AUTH e TC-TERRENO) |
 | **Seguranca** | BCrypt, rotas publicas restritas, JWT em `/api/**` |
 
@@ -156,6 +157,51 @@ CRUD completo vinculado ao produtor autenticado.
 }
 ```
 
+## Servico externo — AlertEngine (C#)
+
+Motor de regras **RF-IA parcial** (sem TTS). O Java orquestra; o Python so recebe `mensagemParaFala`.
+
+| Componente | Tecnologia | Porta padrao |
+| --- | --- | --- |
+| API principal | Java Spring Boot | 8080 |
+| AlertEngine | C# .NET 8 | 5050 |
+| TTS (futuro) | Python | a definir |
+
+### Rodar o AlertEngine
+
+```powershell
+cd services/AgroSat.AlertEngine.Api
+dotnet run
+```
+
+Swagger: `http://localhost:5050/swagger`
+
+### Fluxo
+
+```text
+POST /api/terrenos/{id}/alertas/compor  (Java)
+    → POST /api/v1/alertas/compor       (C#)
+    → { mensagemParaFala, codigo, severidade, ... }
+    → POST /speak                       (Python — proximo passo)
+```
+
+### Exemplo de resposta
+
+```json
+{
+  "terrenoId": 5,
+  "severidade": "ALTA",
+  "codigo": "RISCO_FUNGO",
+  "mensagemParaFala": "Atencao! Risco de fungo na area norte. Evite irrigar nos proximos tres dias.",
+  "mensagemTecnica": "NDVI norte=0.25; umidade=0.85; irrigacao ativa",
+  "acaoRecomendada": "SUSPENDER_IRRIGACAO_72H"
+}
+```
+
+Documentacao completa: `services/AgroSat.AlertEngine.Api/README.md`
+
+Configuracao Java: `agrosat.alert-engine.base-url=http://localhost:5050`
+
 ## API — Lavoura (exemplo JWT)
 
 | Metodo | Rota | Descricao |
@@ -190,7 +236,11 @@ CRUD completo vinculado ao produtor autenticado.
 src/main/java/com/fiap/demo/
 ├── auth/          # Autenticacao, usuarios, JWT, SMS, logs
 ├── terreno/       # CRUD de terrenos
+├── alertengine/   # Cliente HTTP para o servico C#
 └── config/        # Security, JWT filter, OpenAPI
+
+services/
+└── AgroSat.AlertEngine.Api/   # Servico C# de composicao de alertas
 ```
 
 ## Referencia

@@ -71,6 +71,11 @@ public class TerrenoService {
         return mapToResponse(terreno);
     }
 
+    @Transactional(readOnly = true)
+    public Terreno findEntityById(Long id) {
+        return findTerrenoAutorizado(id);
+    }
+
     @Transactional
     public TerrenoResponse update(Long id, TerrenoRequest request) {
         Terreno terreno = findTerrenoAutorizado(id);

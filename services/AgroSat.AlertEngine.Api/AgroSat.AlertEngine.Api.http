@@ -1,0 +1,46 @@
+@host = http://localhost:5050
+
+### Health
+GET {{host}}/api/v1/alertas/health
+
+### Compor alerta — risco de fungo
+POST {{host}}/api/v1/alertas/compor
+Content-Type: application/json
+
+{
+  "terrenoId": 5,
+  "nome": "Lavoura Norte",
+  "culturaAtual": "Soja",
+  "areaTotalHectares": 50,
+  "areaCultivoHectares": 35,
+  "emCultivo": true,
+  "irrigacaoAtiva": true,
+  "geo": {
+    "ndviMedio": 0.42,
+    "ndviZonaNorte": 0.25,
+    "ndviZonaSul": 0.65,
+    "umidadeRelativa": 0.85,
+    "diasSemImagemSatelite": 2
+  }
+}
+
+### Compor alerta — saudavel
+POST {{host}}/api/v1/alertas/compor
+Content-Type: application/json
+
+{
+  "terrenoId": 1,
+  "nome": "Lavoura Sul",
+  "culturaAtual": "Milho",
+  "areaTotalHectares": 40,
+  "areaCultivoHectares": 30,
+  "emCultivo": true,
+  "irrigacaoAtiva": false,
+  "geo": {
+    "ndviMedio": 0.72,
+    "ndviZonaNorte": 0.68,
+    "ndviZonaSul": 0.75,
+    "umidadeRelativa": 0.5,
+    "diasSemImagemSatelite": 3
+  }
+}

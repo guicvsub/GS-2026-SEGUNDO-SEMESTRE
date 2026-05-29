@@ -2,6 +2,7 @@ package com.fiap.demo.auth.service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -12,8 +13,13 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 public class TokenService {
 
     public static final int TOKEN_EXP_HOURS = 8;
-    private static final String SECRET = "agro-gs-super-secret-key-2026-segundo-semestre-fiap-implementador-senior";
-    private final Algorithm algorithm = Algorithm.HMAC256(SECRET);
+    private final String secret;
+    private final Algorithm algorithm;
+
+    public TokenService(@Value("${agrosat.jwt.secret}") String secret) {
+        this.secret = secret;
+        this.algorithm = Algorithm.HMAC256(secret);
+    }
 
     public String generateToken(String cpf) {
         return JWT.create()
