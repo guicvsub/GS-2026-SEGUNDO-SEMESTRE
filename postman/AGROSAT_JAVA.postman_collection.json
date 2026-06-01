@@ -1,0 +1,463 @@
+{
+  "info": {
+    "name": "AgroSat Java API",
+    "description": "Coleção Postman para testar a API AgroSat (Spring Boot - Java 21)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Autenticacao",
+      "item": [
+        {
+          "name": "Registrar Usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cpf\": \"529.982.247-25\",\n  \"nome\": \"Joao Silva\",\n  \"senha\": \"Farm@2026\",\n  \"latitude\": -15.7,\n  \"longitude\": -47.9,\n  \"areaCultivo\": 50.0\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login (Usuario Comum)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cpf\": \"{{usuario_comum_cpf}}\",\n  \"senha\": \"{{usuario_comum_senha}}\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login (Usuario Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cpf\": \"{{usuario_admin_cpf}}\",\n  \"senha\": \"{{usuario_admin_senha}}\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Solicitar Recuperacao de Senha",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cpf\": \"529.982.247-25\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/auth/recovery",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["auth", "recovery"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Resetar Senha",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cpf\": \"529.982.247-25\",\n  \"otp\": \"123456\",\n  \"novaSenha\": \"NovaSenha@2026\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/auth/reset-password",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["auth", "reset-password"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Terrenos",
+      "item": [
+        {
+          "name": "Listar Terrenos",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/terrenos",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "terrenos"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Terreno",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Fazenda Santa Luzia\",\n  \"descricao\": \"Propriedade rural dedicada ao cultivo de soja e milho\",\n  \"latitude\": -15.7,\n  \"longitude\": -47.9,\n  \"areaTotalHectares\": 100.0,\n  \"areaReservaHectares\": 20.0,\n  \"areaCultivoHectares\": 80.0,\n  \"emCultivo\": true,\n  \"culturaAtual\": \"Soja\",\n  \"tipoSolo\": \"Argiloso\",\n  \"irrigacaoAtiva\": true,\n  \"dataReferencia\": \"2026-06-01\",\n  \"observacoes\": \"Solo bem drenado, ideal para cultivo de grãos\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/terrenos",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "terrenos"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Terreno por ID (Terreno 1)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/terrenos/{{terreno1_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "terrenos", "{{terreno1_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Terreno por ID (Terreno 2)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/terrenos/{{terreno2_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "terrenos", "{{terreno2_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Terreno (Terreno 1)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Fazenda Santa Luzia - Atualizada\",\n  \"descricao\": \"Propriedade rural dedicada ao cultivo de soja e milho - Atualizada\",\n  \"latitude\": -15.7,\n  \"longitude\": -47.9,\n  \"areaTotalHectares\": 100.0,\n  \"areaReservaHectares\": 20.0,\n  \"areaCultivoHectares\": 80.0,\n  \"emCultivo\": true,\n  \"culturaAtual\": \"Milho\",\n  \"tipoSolo\": \"Argiloso\",\n  \"irrigacaoAtiva\": true,\n  \"dataReferencia\": \"2026-06-01\",\n  \"observacoes\": \"Solo bem drenado, ideal para cultivo de grãos - Atualizado\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/terrenos/{{terreno1_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "terrenos", "{{terreno1_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Terreno (Terreno 3)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/terrenos/{{terreno3_id}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "terrenos", "{{terreno3_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Alertas",
+      "item": [
+        {
+          "name": "Compor Alerta (Terreno 3)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"terrenoId\": {{terreno3_id}},\n  \"nome\": \"Lavoura Norte\",\n  \"culturaAtual\": \"Soja\",\n  \"areaTotalHectares\": 50.0,\n  \"areaCultivoHectares\": 35.0,\n  \"emCultivo\": true,\n  \"irrigacaoAtiva\": true,\n  \"geo\": {\n    \"ndviMedio\": 0.42,\n    \"ndviZonaNorte\": 0.25,\n    \"ndviZonaSul\": 0.65,\n    \"umidadeRelativa\": 0.85,\n    \"diasSemImagemSatelite\": 2\n  }\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/alertas/compor",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "alertas", "compor"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "Listar Usuarios (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/usuarios",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "usuarios"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Usuario Atual",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/usuarios/me",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "usuarios", "me"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Usuario (Usuario Comum)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cpf\": \"{{usuario_comum_cpf}}\",\n  \"nome\": \"Joao Silva Atualizado\",\n  \"senha\": \"NovaSenha@2026\",\n  \"latitude\": -15.7,\n  \"longitude\": -47.9,\n  \"areaCultivo\": 60.0\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/usuarios/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "usuarios", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Estatisticas de Cultivo",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/usuarios/estatisticas-cultivo",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "usuarios", "estatisticas-cultivo"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": "",
+      "type": "string",
+      "description": "JWT token obtido no login"
+    },
+    {
+      "key": "usuario_comum_cpf",
+      "value": "529.982.247-25",
+      "type": "string",
+      "description": "CPF do usuário comum de teste (Joao Silva)"
+    },
+    {
+      "key": "usuario_comum_senha",
+      "value": "Farm@2026",
+      "type": "string",
+      "description": "Senha do usuário comum de teste"
+    },
+    {
+      "key": "usuario_admin_cpf",
+      "value": "123.456.789-09",
+      "type": "string",
+      "description": "CPF do usuário admin de teste (Admin Sistema)"
+    },
+    {
+      "key": "usuario_admin_senha",
+      "value": "Admin@2026",
+      "type": "string",
+      "description": "Senha do usuário admin de teste"
+    },
+    {
+      "key": "usuario_comum2_cpf",
+      "value": "987.654.321-00",
+      "type": "string",
+      "description": "CPF do usuário comum adicional de teste (Maria Santos)"
+    },
+    {
+      "key": "usuario_comum2_senha",
+      "value": "Maria@2026",
+      "type": "string",
+      "description": "Senha do usuário comum adicional de teste"
+    },
+    {
+      "key": "terreno1_id",
+      "value": "1",
+      "type": "string",
+      "description": "ID do terreno 1 (Fazenda Santa Luzia - Usuario Comum)"
+    },
+    {
+      "key": "terreno2_id",
+      "value": "2",
+      "type": "string",
+      "description": "ID do terreno 2 (Fazenda Boa Esperanca - Usuario Admin)"
+    },
+    {
+      "key": "terreno3_id",
+      "value": "3",
+      "type": "string",
+      "description": "ID do terreno 3 (Lavoura Norte - Usuario Comum)"
+    }
+  ]
+}

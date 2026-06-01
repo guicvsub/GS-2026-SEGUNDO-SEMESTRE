@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -17,17 +16,16 @@ import com.fiap.demo.auth.dto.EstatisticasCultivoResponse;
 import com.fiap.demo.auth.model.Usuario;
 import com.fiap.demo.auth.model.Role;
 import com.fiap.demo.auth.repository.UsuarioRepository;
+import com.fiap.demo.auth.util.Sha256Util;
 import com.fiap.demo.config.SecurityUtils;
 
 @Service("usuarioService")
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public boolean isOwner(Long id) {
@@ -58,7 +56,7 @@ public class UsuarioService {
         Usuario usuario = Usuario.builder()
                 .nome(request.nome())
                 .cpf(cpf)
-                .senhaHash(passwordEncoder.encode(request.senha()))
+                .senhaHash(Sha256Util.hash(request.senha()))
                 .latitude(request.latitude())
                 .longitude(request.longitude())
                 .areaCultivoHectares(request.areaCultivo())
@@ -111,7 +109,7 @@ public class UsuarioService {
         usuario.setNome(request.nome());
         usuario.setCpf(cpf);
         if (request.senha() != null && !request.senha().isBlank()) {
-            usuario.setSenhaHash(passwordEncoder.encode(request.senha()));
+            usuario.setSenhaHash(Sha256Util.hash(request.senha()));
         }
         usuario.setLatitude(request.latitude());
         usuario.setLongitude(request.longitude());

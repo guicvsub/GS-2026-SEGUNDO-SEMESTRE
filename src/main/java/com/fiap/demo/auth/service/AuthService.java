@@ -7,7 +7,6 @@ import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,6 +23,7 @@ import com.fiap.demo.auth.model.AcessoLog;
 import com.fiap.demo.auth.repository.UsuarioRepository;
 import com.fiap.demo.auth.repository.PasswordRecoveryRepository;
 import com.fiap.demo.auth.repository.AcessoLogRepository;
+import com.fiap.demo.auth.util.Sha256Util;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -34,7 +34,6 @@ public class AuthService {
 
     private final UsuarioRepository usuarioRepository;
     private final TokenService tokenService;
-    private final PasswordEncoder passwordEncoder;
     private final PasswordRecoveryRepository recoveryRepository;
     private final AcessoLogRepository acessoLogRepository;
     private final SmsService smsService;
@@ -43,15 +42,13 @@ public class AuthService {
     private HttpServletRequest httpServletRequest;
 
     public AuthService(
-            UsuarioRepository usuarioRepository, 
+            UsuarioRepository usuarioRepository,
             TokenService tokenService,
-            PasswordEncoder passwordEncoder,
             PasswordRecoveryRepository recoveryRepository,
             AcessoLogRepository acessoLogRepository,
             SmsService smsService) {
         this.usuarioRepository = usuarioRepository;
         this.tokenService = tokenService;
-        this.passwordEncoder = passwordEncoder;
         this.recoveryRepository = recoveryRepository;
         this.acessoLogRepository = acessoLogRepository;
         this.smsService = smsService;
@@ -70,7 +67,7 @@ public class AuthService {
         Usuario usuario = Usuario.builder()
                 .nome(request.nome())
                 .cpf(cpf)
-                .senhaHash(passwordEncoder.encode(request.senha()))
+                .senhaHash(Sha256Util.hash(request.senha()))
                 .latitude(request.latitude())
                 .longitude(request.longitude())
                 .areaCultivoHectares(request.areaCultivo())
@@ -103,7 +100,7 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "Conta bloqueada");
         }
 
-        if (!passwordEncoder.matches(request.senha(), usuario.getSenhaHash())) {
+        if (!Sha256Util.matches(request.senha(), usuario.getSenhaHash())) {
             usuario.registrarFalhaLogin();
             registrarAcesso(cpf, "FAILURE", ip, agora);
             
@@ -203,7 +200,7 @@ public class AuthService {
         Usuario usuario = usuarioRepository.findByCpf(cpf)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario nao encontrado"));
 
-        usuario.setSenhaHash(passwordEncoder.encode(request.novaSenha()));
+        usuario.setSenhaHash(Sha256Util.hash(request.novaSenha()));
         usuarioRepository.save(usuario);
 
         // Deletar registro de recuperacao para segurança

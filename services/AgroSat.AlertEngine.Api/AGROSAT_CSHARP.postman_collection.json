@@ -1,0 +1,161 @@
+{
+  "info": {
+    "name": "AgroSat C# API",
+    "description": "Coleção Postman para testar a API AgroSat.AlertEngine.Api (.NET 8)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:5050/api/v1/alertas/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5050",
+          "path": ["api", "v1", "alertas", "health"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Compor Alerta",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"terrenoId\": 5,\n  \"nome\": \"Lavoura Norte\",\n  \"culturaAtual\": \"Soja\",\n  \"areaTotalHectares\": 50,\n  \"areaCultivoHectares\": 35,\n  \"emCultivo\": true,\n  \"irrigacaoAtiva\": true,\n  \"geo\": {\n    \"ndviMedio\": 0.42,\n    \"ndviZonaNorte\": 0.25,\n    \"ndviZonaSul\": 0.65,\n    \"umidadeRelativa\": 0.85,\n    \"diasSemImagemSatelite\": 2\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5050/api/v1/alertas/compor",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5050",
+          "path": ["api", "v1", "alertas", "compor"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Terrenos",
+      "item": [
+        {
+          "name": "Listar Terrenos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5050/api/v1/terrenos",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5050",
+              "path": ["api", "v1", "terrenos"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Criar Terreno",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Fazenda Santa Luzia\",\n  \"descricao\": \"Propriedade rural dedicada ao cultivo de soja e milho\",\n  \"latitude\": -15.7,\n  \"longitude\": -47.9,\n  \"areaTotalHectares\": 100,\n  \"areaReservaHectares\": 20,\n  \"areaCultivoHectares\": 80,\n  \"emCultivo\": true,\n  \"culturaAtual\": \"Soja\",\n  \"tipoSolo\": \"Argiloso\",\n  \"irrigacaoAtiva\": true,\n  \"dataReferencia\": \"2026-05-29T12:00:00Z\",\n  \"observacoes\": \"Solo bem drenado, ideal para cultivo de grãos\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5050/api/v1/terrenos",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5050",
+              "path": ["api", "v1", "terrenos"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Buscar Terreno por ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5050/api/v1/terrenos/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5050",
+              "path": ["api", "v1", "terrenos", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualizar Terreno",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nome\": \"Fazenda Santa Luzia - Atualizada\",\n  \"descricao\": \"Propriedade rural dedicada ao cultivo de soja e milho - Atualizada\",\n  \"latitude\": -15.7,\n  \"longitude\": -47.9,\n  \"areaTotalHectares\": 100,\n  \"areaReservaHectares\": 20,\n  \"areaCultivoHectares\": 80,\n  \"emCultivo\": true,\n  \"culturaAtual\": \"Milho\",\n  \"tipoSolo\": \"Argiloso\",\n  \"irrigacaoAtiva\": true,\n  \"dataReferencia\": \"2026-05-29T12:00:00Z\",\n  \"observacoes\": \"Solo bem drenado, ideal para cultivo de grãos - Atualizado\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5050/api/v1/terrenos/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5050",
+              "path": ["api", "v1", "terrenos", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deletar Terreno",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5050/api/v1/terrenos/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5050",
+              "path": ["api", "v1", "terrenos", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Exportar Alertas do Terreno",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:5050/api/v1/terrenos/1/alertas/exportar",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5050",
+              "path": ["api", "v1", "terrenos", "1", "alertas", "exportar"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
