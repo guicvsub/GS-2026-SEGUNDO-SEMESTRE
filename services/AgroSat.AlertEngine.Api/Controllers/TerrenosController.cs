@@ -1,19 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AgroSat.AlertEngine.Api.Data;
-using AgroSat.AlertEngine.Api.Entities;
-using AgroSat.AlertEngine.Api.Models;
+using AgroShield.AlertEngine.Api.Data;
+using AgroShield.AlertEngine.Api.Entities;
+using AgroShield.AlertEngine.Api.Models;
 
-namespace AgroSat.AlertEngine.Api.Controllers;
+namespace AgroShield.AlertEngine.Api.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]")]
 public class TerrenosController : ControllerBase
 {
-    private readonly AgroSatDbContext _context;
+    private readonly AgroShieldDbContext _context;
     private readonly ILogger<TerrenosController> _logger;
 
-    public TerrenosController(AgroSatDbContext context, ILogger<TerrenosController> logger)
+    public TerrenosController(AgroShieldDbContext context, ILogger<TerrenosController> logger)
     {
         _context = context;
         _logger = logger;

@@ -15,7 +15,7 @@ public class AlertEngineClient {
     private final RestClient restClient;
     private final String baseUrl;
 
-    public AlertEngineClient(@Value("${agrosat.alert-engine.base-url:http://localhost:5050}") String baseUrl) {
+    public AlertEngineClient(@Value("${AgroShield.alert-engine.base-url:http://localhost:5050}") String baseUrl) {
         this.baseUrl = baseUrl;
         this.restClient = RestClient.builder()
                 .baseUrl(baseUrl)
@@ -39,7 +39,7 @@ public class AlertEngineClient {
             throw ex;
         } catch (org.springframework.web.client.ResourceAccessException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_GATEWAY,
-                    "Serviço AgroSat.AlertEngine.Api indisponível ou conexão recusada. " +
+                    "Serviço AgroShield.AlertEngine.Api indisponível ou conexão recusada. " +
                     "Verifique se o serviço C# está rodando em: " + baseUrl);
         } catch (org.springframework.web.client.HttpClientErrorException ex) {
             throw new ResponseStatusException(HttpStatus.BAD_GATEWAY,
@@ -49,7 +49,7 @@ public class AlertEngineClient {
                     "Erro interno do AlertEngine: " + ex.getStatusCode() + " - " + ex.getResponseBodyAsString());
         } catch (Exception ex) {
             throw new ResponseStatusException(HttpStatus.BAD_GATEWAY,
-                    "Erro inesperado ao comunicar com AgroSat.AlertEngine.Api: " + ex.getClass().getSimpleName() + " - " + ex.getMessage());
+                    "Erro inesperado ao comunicar com AgroShield.AlertEngine.Api: " + ex.getClass().getSimpleName() + " - " + ex.getMessage());
         }
     }
 }

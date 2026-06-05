@@ -16,7 +16,7 @@ public class TokenService {
     private final String secret;
     private final Algorithm algorithm;
 
-    public TokenService(@Value("${agrosat.jwt.secret}") String secret) {
+    public TokenService(@Value("${AgroShield.jwt.secret}") String secret) {
         this.secret = secret;
         this.algorithm = Algorithm.HMAC256(secret);
     }

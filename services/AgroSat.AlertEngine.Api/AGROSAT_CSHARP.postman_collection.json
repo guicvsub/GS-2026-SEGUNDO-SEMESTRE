@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "AgroSat C# API",
-    "description": "Coleção Postman para testar a API AgroSat.AlertEngine.Api (.NET 8)",
+    "name": "AgroShield C# API",
+    "description": "Coleção Postman para testar a API AgroShield.AlertEngine.Api (.NET 8)",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [

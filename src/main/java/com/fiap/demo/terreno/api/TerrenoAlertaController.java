@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/terrenos")
-@Tag(name = "Terrenos", description = "Alertas via AgroSat.AlertEngine.Api (C#)")
+@Tag(name = "Terrenos", description = "Alertas via AgroShield.AlertEngine.Api (C#)")
 @SecurityRequirement(name = OpenApiConfig.BEARER_AUTH)
 public class TerrenoAlertaController {
 
@@ -30,7 +30,7 @@ public class TerrenoAlertaController {
     @PostMapping("/{id}/alertas/compor")
     @Operation(
             summary = "Compor alerta agricola (C# AlertEngine)",
-            description = "Chama AgroSat.AlertEngine.Api e retorna mensagemParaFala para o servico Python TTS."
+            description = "Chama AgroShield.AlertEngine.Api e retorna mensagemParaFala para o servico Python TTS."
     )
     public AlertaComposicaoResponse comporAlerta(
             @PathVariable Long id,

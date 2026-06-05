@@ -1,4 +1,4 @@
-# AgroSat.AlertEngine.Api
+# AgroShield.AlertEngine.Api
 
 Servico **backend** em C# (.NET 8) para composicao de alertas agricolas e gerenciamento de terrenos (RF-IA parcial, US-04).
 
@@ -28,7 +28,7 @@ Servico **backend** em C# (.NET 8) para composicao de alertas agricolas e gerenc
 ## Rodar
 
 ```powershell
-cd services/AgroSat.AlertEngine.Api
+cd services/AgroShield.AlertEngine.Api
 dotnet restore
 dotnet run
 ```
@@ -171,12 +171,12 @@ dotnet test
 ## Estrutura do Projeto
 
 ```
-AgroSat.AlertEngine.Api/
+AgroShield.AlertEngine.Api/
 ├── Controllers/
 │   ├── AlertasController.cs       # Composicao de alertas
 │   └── TerrenosController.cs      # CRUD de terrenos
 ├── Data/
-│   └── AgroSatDbContext.cs        # DbContext EF Core
+│   └── AgroShieldDbContext.cs        # DbContext EF Core
 ├── Entities/
 │   ├── Terreno.cs                 # Entidade Terreno
 │   └── HistoricoAlerta.cs         # Entidade HistoricoAlerta
@@ -191,5 +191,5 @@ AgroSat.AlertEngine.Api/
 │   └── AlertCompositionService.cs # Logica de composicao
 ├── Program.cs                      # Configuracao da aplicacao
 ├── appsettings.json               # Configuracoes
-└── AgroSat.AlertEngine.Api.csproj # Dependencias
+└── AgroShield.AlertEngine.Api.csproj # Dependencias
 ```

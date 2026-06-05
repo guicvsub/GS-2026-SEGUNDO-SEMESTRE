@@ -1,4 +1,4 @@
-# GS-2026-SEGUNDO-SEMESTRE — AGROSAT
+# GS-2026-SEGUNDO-SEMESTRE — AgroShield
 
 Projeto da **Global Solution (FIAP 2026)** — plataforma de agricultura de precisão com autenticação JWT, gestão de usuários e cadastro de terrenos em hectares.
 
@@ -17,7 +17,7 @@ Projeto da **Global Solution (FIAP 2026)** — plataforma de agricultura de prec
 - **Autenticacao (RF-AUTH)**: Cadastro, login JWT (8h), recuperacao de senha via OTP/SMS, bloqueio apos tentativas, log de acesso (90 dias)
 - **Usuarios**: CRUD com papeis `ROLE_USER` e `ROLE_ADMIN`, estatisticas agregadas de area de cultivo
 - **Terrenos**: CRUD de propriedades rurais com areas em hectares, reserva, cultivo ativo e registro diario
-- **AlertEngine (C#)**: Composicao de alertas agricolas (`mensagemParaFala`) — consumido pelo Java
+- **AlertEngine (C#)**: Composicao de alertas agricolas (`mensagemParaFala`) — consumido pelo AgroShield
 - **Seguranca**: SHA-256 para senhas, rotas publicas restritas, JWT em `/api/**`
 
 ## Como rodar
@@ -80,28 +80,41 @@ Motor de regras **RF-IA parcial** (sem TTS). O Java orquestra; o Python so receb
 ### Rodar o AlertEngine
 
 ```powershell
-cd services/AgroSat.AlertEngine.Api
+cd services/AgroShield.AlertEngine.Api
 dotnet run
 ```
 
-Documentacao completa: `services/AgroSat.AlertEngine.Api/README.md`
+Documentacao completa: `services/AgroShield.AlertEngine.Api/README.md`
 
 Configuracao Java: `agrosat.alert-engine.base-url=http://localhost:5050`
 
-## Collections Postman
+## Evidências de Execução
 
-| Arquivo | Conteudo |
-| --- | --- |
-| `postman/AGROSAT_JAVA.postman_collection.json` | Coleção completa com todos os endpoints (Autenticacao, Terrenos, Alertas, Usuarios) |
+### Console e Request
 
-**Como usar:**
-1. Abra o Postman
-2. Clique em "Import" e selecione o arquivo `postman/AGROSAT_JAVA.postman_collection.json`
-3. Execute `POST /auth/login (Usuario Comum)` para obter o token JWT
-4. Atualize a variável `{{token}}` na coleção Postman
-5. Execute os demais requests
+![Console e Request](evidencias%20de%20execucao/request+console.png)
 
-**Nota:** O sistema popula automaticamente dados de teste ao iniciar. Veja detalhes no Swagger.
+**Descrição:** Captura de tela demonstrando a execução de um request na API AgroShield, mostrando o console da aplicação com logs de processamento e a resposta da requisição HTTP.
+
+### Logs do Banco de Dados
+
+![Logs do Banco de Dados](evidencias%20de%20execucao/tabela%20do%20banco%20logs.png)
+
+**Descrição:** Captura de tela mostrando os registros no banco de dados MySQL, incluindo tabelas de usuários, terrenos e logs de acesso, demonstrando a persistência dos dados criados pelo DataInitializer.
+
+## Diagramas de Fluxo
+
+Para visualizar os diagramas de fluxo detalhados do sistema, consulte o arquivo [DIAGRAMAS.md](DIAGRAMAS.md), que inclui:
+
+- Fluxo de Autenticação (Login)
+- Fluxo de Recuperação de Senha
+- Fluxo de CRUD de Terrenos
+- Fluxo de Composição de Alertas
+- Fluxo de Segurança JWT
+- Arquitetura do Sistema
+- Fluxo de Limpeza de Logs (Scheduled)
+
+Os diagramas são renderizados usando Mermaid e podem ser visualizados em editores Markdown que suportam essa sintaxe (como GitHub, GitLab, VS Code com extensão Mermaid).
 
 ## Estrutura principal do codigo
 
@@ -113,7 +126,7 @@ src/main/java/com/fiap/demo/
 └── config/        # Security, JWT filter, OpenAPI, DataInitializer
 
 services/
-└── AgroSat.AlertEngine.Api/   # Servico C# de composicao de alertas
+└── AgroShield.AlertEngine.Api/   # Servico C# de composicao de alertas
 ```
 
 ## Referencia

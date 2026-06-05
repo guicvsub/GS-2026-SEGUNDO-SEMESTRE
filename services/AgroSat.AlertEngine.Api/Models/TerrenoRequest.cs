@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace AgroSat.AlertEngine.Api.Models;
+namespace AgroShield.AlertEngine.Api.Models;
 
 public class TerrenoRequest
 {

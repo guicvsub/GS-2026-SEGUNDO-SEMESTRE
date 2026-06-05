@@ -1,8 +1,8 @@
-using AgroSat.AlertEngine.Api.Models;
-using AgroSat.AlertEngine.Api.Services;
+using AgroShield.AlertEngine.Api.Models;
+using AgroShield.AlertEngine.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AgroSat.AlertEngine.Api.Controllers;
+namespace AgroShield.AlertEngine.Api.Controllers;
 
 [ApiController]
 [Route("api/v1/alertas")]
@@ -57,5 +57,5 @@ public class AlertasController : ControllerBase
     }
 
     [HttpGet("health")]
-    public IActionResult Health() => Ok(new { status = "UP", service = "AgroSat.AlertEngine.Api" });
+    public IActionResult Health() => Ok(new { status = "UP", service = "AgroShield.AlertEngine.Api" });
 }

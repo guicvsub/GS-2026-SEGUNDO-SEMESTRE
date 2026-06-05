@@ -1,6 +1,6 @@
-using AgroSat.AlertEngine.Api.Models;
+using AgroShield.AlertEngine.Api.Models;
 
-namespace AgroSat.AlertEngine.Api.Services;
+namespace AgroShield.AlertEngine.Api.Services;
 
 /// <summary>
 /// Motor de regras RF-IA parcial + US-04 (mensagem simples para TTS em Python).

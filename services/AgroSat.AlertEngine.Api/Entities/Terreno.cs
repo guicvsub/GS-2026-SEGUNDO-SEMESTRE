@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace AgroSat.AlertEngine.Api.Entities;
+namespace AgroShield.AlertEngine.Api.Entities;
 
 [Table("terrenos")]
 public class Terreno

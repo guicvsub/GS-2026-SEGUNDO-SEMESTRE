@@ -16,10 +16,10 @@ public class OpenApiConfig {
     public static final String BEARER_AUTH = "bearerAuth";
 
     @Bean
-    OpenAPI agrosatOpenApi() {
+    OpenAPI agroShieldOpenApi() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("AGROSAT API")
+                        .title("AgroShield API")
                         .version("1.0")
                         .description("""
                                 API do assistente agricola inteligente (Global Solution FIAP 2026).
@@ -48,7 +48,7 @@ public class OpenApiConfig {
                                 | TC-TERRENO-10 | Payload invalido | 422 |
                                 | TC-TERRENO-11 | Admin lista todos os terrenos | 200 |
                                 """)
-                        .contact(new Contact().name("AGROSAT FIAP").email("contato@agrosat.local")))
+                        .contact(new Contact().name("AgroShield FIAP").email("contato@agroshield.local")))
                 .addTagsItem(new Tag().name("Autenticacao").description("Cadastro, login e recuperacao de senha (RF-AUTH)"))
                 .addTagsItem(new Tag().name("Usuarios").description("CRUD de usuarios — restrito por papel"))
                 .addTagsItem(new Tag().name("Terrenos").description("CRUD de terrenos em hectares — TC-TERRENO-01 a 11"))

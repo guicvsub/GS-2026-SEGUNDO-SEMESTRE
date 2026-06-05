@@ -1,7 +1,7 @@
-using AgroSat.AlertEngine.Api.Models;
-using AgroSat.AlertEngine.Api.Services;
+using AgroShield.AlertEngine.Api.Models;
+using AgroShield.AlertEngine.Api.Services;
 
-namespace AgroSat.AlertEngine.Api.Tests;
+namespace AgroShield.AlertEngine.Api.Tests;
 
 public class AlertCompositionServiceTests
 {

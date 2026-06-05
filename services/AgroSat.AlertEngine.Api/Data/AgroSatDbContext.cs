@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using AgroSat.AlertEngine.Api.Entities;
+using AgroShield.AlertEngine.Api.Entities;
 
-namespace AgroSat.AlertEngine.Api.Data;
+namespace AgroShield.AlertEngine.Api.Data;
 
-public class AgroSatDbContext : DbContext
+public class AgroShieldDbContext : DbContext
 {
-    public AgroSatDbContext(DbContextOptions<AgroSatDbContext> options) : base(options)
+    public AgroShieldDbContext(DbContextOptions<AgroShieldDbContext> options) : base(options)
     {
     }
 

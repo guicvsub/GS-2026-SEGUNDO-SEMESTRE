@@ -1,4 +1,4 @@
-namespace AgroSat.AlertEngine.Api.Models;
+namespace AgroShield.AlertEngine.Api.Models;
 
 public record AlertaComposicaoResponse(
     long TerrenoId,

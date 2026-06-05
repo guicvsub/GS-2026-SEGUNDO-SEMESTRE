@@ -1,4 +1,4 @@
-namespace AgroSat.AlertEngine.Api.Models;
+namespace AgroShield.AlertEngine.Api.Models;
 
 /// <summary>
 /// Metricas vindas do servico de geoanalitica (RF-SAT) ou simuladas pelo Java.

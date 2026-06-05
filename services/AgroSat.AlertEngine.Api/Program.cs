@@ -1,5 +1,5 @@
-using AgroSat.AlertEngine.Api.Services;
-using AgroSat.AlertEngine.Api.Data;
+using AgroShield.AlertEngine.Api.Services;
+using AgroShield.AlertEngine.Api.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +10,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new()
     {
-        Title = "AgroSat AlertEngine API",
+        Title = "AgroShield AlertEngine API",
         Version = "v1",
         Description = "Servico de composicao de alertas agricolas (RF-IA parcial). " +
                       "Consumido pelo backend Java; TTS em Python."
@@ -20,7 +20,7 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddScoped<IAlertCompositionService, AlertCompositionService>();
 
 // Configurar DbContext com MySQL
-builder.Services.AddDbContext<AgroSatDbContext>(options =>
+builder.Services.AddDbContext<AgroShieldDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
         new MySqlServerVersion(new Version(8, 0, 33))

@@ -1,6 +1,6 @@
-using AgroSat.AlertEngine.Api.Models;
+using AgroShield.AlertEngine.Api.Models;
 
-namespace AgroSat.AlertEngine.Api.Services;
+namespace AgroShield.AlertEngine.Api.Services;
 
 public interface IAlertCompositionService
 {
