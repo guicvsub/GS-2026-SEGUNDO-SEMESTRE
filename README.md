@@ -121,7 +121,7 @@ Para visualizar os diagramas de fluxo detalhados do sistema, consulte o arquivo 
 - Arquitetura do Sistema
 - Fluxo de Limpeza de Logs (Scheduled)
 
-Os diagramas são renderizados usando PlantUML e podem ser visualizados em editores Markdown que suportam essa sintaxe (como GitHub, GitLab, VS Code com extensão PlantUML).
+Os diagramas são renderizados usando Mermaid e podem ser visualizados em editores Markdown que suportam essa sintaxe (como GitHub, GitLab, VS Code com extensão Mermaid).
 
 ## Estrutura principal do codigo
 
