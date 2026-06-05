@@ -25,7 +25,7 @@ Projeto da **Global Solution (FIAP 2026)** — plataforma de agricultura de prec
 1. Tenha **Java 21** e **MySQL** instalados.
 2. Crie o banco:
    ```sql
-   CREATE DATABASE agrosat;
+   CREATE DATABASE AgroShield;
    ```
 3. Ajuste credenciais em `src/main/resources/application.properties` (padrao: `root` / `0000`).
 4. Inicie a aplicacao:
@@ -106,6 +106,13 @@ Configuracao Java: `agrosat.alert-engine.base-url=http://localhost:5050`
 
 Para visualizar os diagramas de fluxo detalhados do sistema, consulte o arquivo [DIAGRAMAS.md](DIAGRAMAS.md), que inclui:
 
+**Diagramas Simplificados (Recomendado para leitura rápida):**
+- Diagrama Simplificado - Visão Geral
+- Fluxo Principal - Autenticação e Operações
+- Fluxo de Terrenos e Alertas
+- Fluxo de Recuperação de Senha
+
+**Diagramas Detalhados:**
 - Fluxo de Autenticação (Login)
 - Fluxo de Recuperação de Senha
 - Fluxo de CRUD de Terrenos

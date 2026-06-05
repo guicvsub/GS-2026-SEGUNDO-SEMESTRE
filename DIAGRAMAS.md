@@ -1,5 +1,96 @@
 # Diagramas de Fluxo - AgroShield
 
+## Diagrama Simplificado - Visão Geral
+
+```mermaid
+graph LR
+    A[Cliente] -->|1. Registro/Login| B[AuthController]
+    A -->|2. JWT Token| C[API Protegida]
+    B -->|3. JWT 8h| C
+    C -->|4. CRUD Terrenos| D[TerrenoController]
+    C -->|5. CRUD Usuarios| E[UsuarioController]
+    D -->|6. Alertas| F[AlertEngine C#]
+    F -->|7. mensagemParaFala| G[Python TTS]
+    
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style C fill:#e8f5e9
+    style D fill:#fff4e1
+    style E fill:#fff4e1
+    style F fill:#f3e5f5
+    style G fill:#fce4ec
+```
+
+## Fluxo Principal - Autenticação e Operações
+
+```mermaid
+sequenceDiagram
+    participant U as Usuário
+    participant A as Auth
+    participant API as API
+    participant DB as Banco
+
+    U->>A: 1. Registrar/Login
+    A->>DB: 2. Salvar/Validar
+    DB-->>A: 3. OK
+    A-->>U: 4. JWT Token
+    
+    U->>API: 5. Request + JWT
+    API->>API: 6. Validar JWT
+    API->>DB: 7. Operação
+    DB-->>API: 8. Dados
+    API-->>U: 9. Resposta
+```
+
+## Fluxo de Terrenos e Alertas
+
+```mermaid
+graph TB
+    Start[Usuário Logado] --> Terreno[CRUD Terrenos]
+    Terreno --> Criar[Criar Terreno]
+    Terreno --> Listar[Listar Terrenos]
+    Terreno --> Alerta[Gerar Alerta]
+    
+    Criar --> Valida[Validar Áreas]
+    Valida -->|OK| Salvar[Salvar no Banco]
+    Valida -->|Erro| Erro[Retornar Erro]
+    
+    Listar --> User[ROLE_USER: Meus Terrenos]
+    Listar --> Admin[ROLE_ADMIN: Todos]
+    
+    Alerta --> CSharp[Chamar C# AlertEngine]
+    CSharp --> Mensagem[Gerar mensagemParaFala]
+    Mensagem --> TTS[Enviar para Python TTS]
+    
+    style Start fill:#e1f5ff
+    style Terreno fill:#fff4e1
+    style Alerta fill:#f3e5f5
+    style CSharp fill:#f3e5f5
+    style TTS fill:#fce4ec
+```
+
+## Fluxo de Recuperação de Senha
+
+```mermaid
+graph LR
+    A[Esqueceu Senha] --> B[Enviar CPF]
+    B --> C[Gerar OTP]
+    C --> D[Enviar SMS]
+    D --> E[Usuário Recebe OTP]
+    E --> F[Inserir OTP + Nova Senha]
+    F --> G[Validar OTP]
+    G -->|OK| H[Atualizar Senha]
+    G -->|Erro| I[Retornar Erro]
+    H --> J[Sucesso]
+    
+    style A fill:#e1f5ff
+    style C fill:#fff4e1
+    style G fill:#fff4e1
+    style H fill:#e8f5e9
+    style J fill:#e8f5e9
+```
+
+---
 ## 1. Fluxo de Autenticação (Login)
 
 ```mermaid
