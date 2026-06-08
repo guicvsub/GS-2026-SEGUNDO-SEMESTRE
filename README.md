@@ -2,6 +2,70 @@
 
 Projeto da **Global Solution (FIAP 2026)** — plataforma de agricultura de precisão com autenticação JWT, gestão de usuários e cadastro de terrenos em hectares.
 
+## Motivação do Projeto
+
+O Brasil enfrenta significativas perdas de safra devido à falta de adoção de agricultura de precisão por pequenos produtores rurais. A agricultura tradicional, baseada em métodos empíricos e sem o uso de tecnologias avançadas, resulta em ineficiências, desperdício de recursos e menor produtividade.
+
+A **AgroShield** surge como uma iniciativa para democratizar o acesso à agricultura de precisão, proporcionando ferramentas acessíveis que permitem:
+
+- **Mapeamento de terrenos** com precisão geográfica
+- **Inferência climática** baseada em dados via satélite
+- **Alertas agrícolas** personalizados para tomada de decisão
+- **Gestão integrada** de propriedades rurais
+
+## Integração no Projeto
+
+Este módulo backend em Java (Spring Boot) é responsável por:
+
+1. **Autenticação e Autorização**
+   - Sistema de login seguro com JWT (JSON Web Token)
+   - Controle de acesso baseado em papéis (ROLE_USER e ROLE_ADMIN)
+   - Recuperação de senha via OTP (One-Time Password)
+   - Logs de acesso para auditoria e segurança
+
+2. **Mapeamento de Terrenos**
+   - CRUD completo de propriedades rurais
+   - Registro de áreas em hectares (total, reserva legal, cultivo)
+   - Registro diário de dados de cultivo
+   - Validação de áreas e consistência de dados
+
+3. **Integração com Serviços Externos**
+   - Comunicação com serviço C# `AgroShield.AlertEngine.Api` para composição de alertas
+   - Integração futura com serviço Python TTS (Text-to-Speech) para alertas por voz
+   - Arquitetura modular para fácil expansão
+
+4. **Documentação e Monitoramento**
+   - Documentação automática via OpenAPI/Swagger
+   - Logs estruturados para monitoramento
+   - Tarefas agendadas para limpeza de logs (90 dias)
+
+## Arquitetura do Sistema
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    AgroShield Ecosystem                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                               │
+│  ┌──────────────┐      ┌──────────────┐      ┌────────────┐ │
+│  │   Frontend   │      │   Backend    │      │  Serviços  │ │
+│  │  (Web/Mobile)│◄────►│  (Java/Spring)│◄────►│  Externos   │ │
+│  └──────────────┘      └──────────────┘      └────────────┘ │
+│         │                      │                      │    │
+│         │                      │                      │    │
+│         ▼                      ▼                      ▼    │
+│  ┌──────────────┐      ┌──────────────┐      ┌────────────┐ │
+│  │  UI Dashboard│      │  Auth & Auth │      │  C# Alert  │ │
+│  │  Mapas Terrenos│     │  JWT Tokens  │      │  Engine    │ │
+│  │  Alertas      │      │  CRUD Terrenos│     │  Python TTS │ │
+│  └──────────────┘      └──────────────┘      └────────────┘ │
+│                                                               │
+└─────────────────────────────────────────────────────────────┘
+```
+
+Este backend serve como o coração da plataforma, gerenciando autenticação, autorização, dados de terrenos e integração com serviços especializados de alerta e síntese de voz.
+
+---
+
 ## Integrantes
 
 | Nome | RM |
