@@ -210,6 +210,4 @@ services/
 └── AgroShield.AlertEngine.Api/   # Servico C# de composicao de alertas
 ```
 
-## Referencia
 
-Documento de requisitos do projeto: `Agro-GS.pdf`.
