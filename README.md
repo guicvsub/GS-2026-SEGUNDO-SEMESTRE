@@ -6,6 +6,16 @@ Projeto da **Global Solution (FIAP 2026)** — plataforma de agricultura de prec
 
 O Brasil enfrenta significativas perdas de safra devido à falta de adoção de agricultura de precisão por pequenos produtores rurais. A agricultura tradicional, baseada em métodos empíricos e sem o uso de tecnologias avançadas, resulta em ineficiências, desperdício de recursos e menor produtividade.
 
+## Integrantes
+
+| Nome | RM |
+| --- | --- |
+| Guilherne Santiago da Silva | RM552321 |
+| Gabriel Souza Fiore | RM553710 |
+| Gustavo Govea Soares | RM553842 |
+| Pedro Henrique Mello Silva Alves | RM554223 |
+| Gabriel Borba | RM553187 |
+
 A **AgroShield** surge como uma iniciativa para democratizar o acesso à agricultura de precisão, proporcionando ferramentas acessíveis que permitem:
 
 - **Mapeamento de terrenos** com precisão geográfica
