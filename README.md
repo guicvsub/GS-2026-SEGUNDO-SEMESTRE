@@ -10,7 +10,7 @@ O Brasil enfrenta significativas perdas de safra devido à falta de adoção de 
 
 | Nome | RM |
 | --- | --- |
-| Guilherne Santiago da Silva | RM552321 |
+| Guilherme Santiago da Silva | RM552321 |
 | Gabriel Souza Fiore | RM553710 |
 | Gustavo Govea Soares | RM553842 |
 | Pedro Henrique Mello Silva Alves | RM554223 |
